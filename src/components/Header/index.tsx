@@ -1,6 +1,6 @@
 import { fromNano } from '@ton/core'
 import { TonConnectButton } from '@tonconnect/ui-react'
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { Link } from 'react-router-dom'
 
 import { DepositModal } from '@/components/modals/header/DepositModal'
@@ -10,13 +10,21 @@ import { MinusIcon } from '@/components/ui/icons/MinusIcon'
 import { PlusIcon } from '@/components/ui/icons/PlusIcon'
 import { ProfileIcon } from '@/components/ui/icons/ProfileIcon'
 import { TonIcon } from '@/components/ui/icons/TonIcon'
-import { ROUTE_PROFILE } from '@/core/routes'
+import { ROUTE_INFO, ROUTE_PROFILE } from '@/core/routes'
 import { useUser } from '@/hooks/user/useUser'
 import { useTgData } from '@/hooks/useTgData'
+import { useDepositModal } from '@/store/useDepositModal'
+import { useWithdrawModal } from '@/store/useWithdrawModal'
+import { InfoIcon } from '../ui/icons/InfoIcon'
 
 export const Header: FC = () => {
-	const [depositModalOpen, setDepositModalOpen] = useState<boolean>(false)
-	const [withdrawModalOpen, setWithdrawModalOpen] = useState<boolean>(false)
+	const depositModalOpen = useDepositModal(state => state.modalOpen)
+	const openDepositModal = useDepositModal(state => state.openModal)
+	const closeDepositModal = useDepositModal(state => state.closeModal)
+
+	const withdrawModalOpen = useWithdrawModal(state => state.modalOpen)
+	const openWithdrawModal = useWithdrawModal(state => state.openModal)
+	const closeWithdrawModal = useWithdrawModal(state => state.closeModal)
 
 	const { userId, photoUrl, initData } = useTgData()
 	const { data } = useUser(userId, initData)
@@ -52,30 +60,34 @@ export const Header: FC = () => {
 								: '0.00'}
 						</span>
 
-						<Button onClick={() => setDepositModalOpen(true)}>
+						<Button onClick={openDepositModal}>
 							<PlusIcon color='#fff' />
 						</Button>
 
-						<Button onClick={() => setWithdrawModalOpen(true)}>
+						<Button onClick={openWithdrawModal}>
 							<MinusIcon />
 						</Button>
 					</p>
 				</div>
 
 				<TonConnectButton />
+
+				<Link to={ROUTE_INFO} className='pr-1'>
+					<InfoIcon />
+				</Link>
 			</header>
 
 			{depositModalOpen && (
 				<DepositModal
 					modalOpen={depositModalOpen}
-					closeModal={() => setDepositModalOpen(false)}
+					closeModal={closeDepositModal}
 				/>
 			)}
 
 			{withdrawModalOpen && (
 				<WithdrawModal
 					modalOpen={withdrawModalOpen}
-					closeModal={() => setWithdrawModalOpen(false)}
+					closeModal={closeWithdrawModal}
 				/>
 			)}
 		</>

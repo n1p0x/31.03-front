@@ -44,12 +44,14 @@ export const Bet: FC<Props> = ({ gifts, nfts }) => {
 				</Link>
 
 				<span className='text-gray'>
-					Or write to @n1pox and send your gift
+					Or write to @gift_rouletton and send your gift
 				</span>
 
 				<Button
 					className='gap-1 text-light-blue p-2'
-					onClick={() => openTelegramLink('https://t.me/n1p0x')}
+					onClick={() =>
+						openTelegramLink('https://t.me/gift_rouletton')
+					}
 				>
 					<TgIcon /> Send
 				</Button>

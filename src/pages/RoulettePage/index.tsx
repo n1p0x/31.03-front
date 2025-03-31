@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 import { WinnerModal } from '@/components/modals/WinnerModal'
+import { Page } from '@/components/Page'
 import { Players } from '@/components/roulette/Players'
 import { Spin } from '@/components/roulette/Spin'
 import { Wheel } from '@/components/roulette/Wheel'
@@ -19,12 +20,12 @@ import { useRound } from './hooks/useRound'
 import { useWinner } from './hooks/useWinner'
 
 export const RoulettePage: FC = () => {
+	const [modalOpen, setModalOpen] = useState<boolean>(false)
 	const [leftTime, setLeftTime] = useState<number>(-1)
 	const [showSpin, setShowSpin] = useState<boolean>(false)
-	const [modalOpen, setModalOpen] = useState<boolean>(true)
 	const [spinContent, setSpinContent] = useState<ISpinPlayer[]>([])
 
-	const { initData } = useTgData()
+	const { userId, initData } = useTgData()
 	const { data: round, isLoading, refetch: refetchRound } = useRound(initData)
 	const {
 		data: winner,
@@ -84,103 +85,113 @@ export const RoulettePage: FC = () => {
 		}
 	}, [showSpin])
 
-	return isLoading ? (
-		<Loading className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white' />
-	) : round ? (
-		<>
-			<div
-				className={twMerge(
-					'flex flex-col items-center gap-1 mt-2 mb-24 overflow-hidden',
-					modalOpen && 'blurred'
-				)}
-			>
-				<div className='grid grid-cols-3 justify-center gap-3 font-semibold px-5'>
-					<p className='flex items-center justify-center gap-1 p-2 bg-dark-gray rounded-3xl'>
-						<span>
-							{leftTime !== -1
-								? `${Math.floor(leftTime / 60)
-										.toString()
-										.padStart(2, '0')}:${Math.floor(
-										leftTime % 60
-								  )
-										.toString()
-										.padStart(2, '0')}`
-								: '-'}
-						</span>
-
-						<TimerIcon />
-					</p>
-
-					<p className='flex items-center justify-center gap-1 p-2 bg-dark-gray rounded-3xl'>
-						<span>{round.totalGifts} / 100</span>
-						<GiftIcon color='#fff' />
-					</p>
-
-					<p className='flex items-center justify-center gap-1 p-2 bg-dark-gray rounded-3xl'>
-						<span>{fromNano(round.totalBet)}</span>
-						<TonIcon width={16} height={16} />
-					</p>
-				</div>
-
-				<div className='flex justify-center items-center h-[300px] max-h-[300px] mb-2 w-full'>
-					<AnimatePresence mode='wait'>
-						{showSpin && round.players ? (
-							<motion.div
-								key='spin'
-								variants={{
-									initial: { opacity: 0, scale: 0.99 },
-									animate: { opacity: 1, scale: 1 },
-									exit: { opacity: 0, scale: 0.95 },
-								}}
-								initial='initial'
-								animate='animate'
-								exit='exit'
-								transition={{ duration: 0.5 }}
-								className='absolute w-full'
-							>
-								<Spin spinContent={spinContent} />
-							</motion.div>
-						) : (
-							<motion.div
-								key='wheel'
-								variants={{
-									initial: { opacity: 0, scale: 0.99 },
-									animate: { opacity: 1, scale: 1 },
-									exit: { opacity: 0, scale: 0.95 },
-								}}
-								initial='initial'
-								animate='animate'
-								exit='exit'
-								transition={{ duration: 0.5 }}
-								className='absolute'
-							>
-								<Wheel
-									totalBet={fromNano(round.totalBet)}
-									totalTickets={round.totalTickets}
-									players={round.players}
-								/>
-							</motion.div>
+	return (
+		<Page>
+			{isLoading ? (
+				<Loading className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white' />
+			) : round ? (
+				<>
+					<div
+						className={twMerge(
+							'flex flex-col items-center gap-1 mt-2 mb-24 overflow-hidden',
+							modalOpen && 'blurred'
 						)}
-					</AnimatePresence>
-				</div>
+					>
+						<div className='grid grid-cols-3 justify-center gap-3 font-semibold px-5'>
+							<p className='flex items-center justify-center gap-1 p-2 bg-dark-gray rounded-3xl'>
+								<span>
+									{leftTime !== -1
+										? `${Math.floor(leftTime / 60)
+												.toString()
+												.padStart(2, '0')}:${Math.floor(
+												leftTime % 60
+										  )
+												.toString()
+												.padStart(2, '0')}`
+										: '-'}
+								</span>
 
-				{!!round.totalTickets && (
-					<Players
-						totalTickets={round.totalTickets}
-						players={round.players}
-					/>
-				)}
-			</div>
+								<TimerIcon />
+							</p>
 
-			{modalOpen && (
-				<WinnerModal
-					totalBet={1000}
-					modalOpen={modalOpen}
-					closeModal={() => setModalOpen(false)}
-				/>
+							<p className='flex items-center justify-center gap-1 p-2 bg-dark-gray rounded-3xl'>
+								<span>{round.totalGifts} / 100</span>
+								<GiftIcon color='#fff' />
+							</p>
+
+							<p className='flex items-center justify-center gap-1 p-2 bg-dark-gray rounded-3xl'>
+								<span>{fromNano(round.totalBet)}</span>
+								<TonIcon width={16} height={16} />
+							</p>
+						</div>
+
+						<div className='flex justify-center items-center h-[300px] max-h-[300px] mb-2 w-full'>
+							<AnimatePresence mode='wait'>
+								{showSpin && round.players ? (
+									<motion.div
+										key='spin'
+										variants={{
+											initial: {
+												opacity: 0,
+												scale: 0.99,
+											},
+											animate: { opacity: 1, scale: 1 },
+											exit: { opacity: 0, scale: 0.95 },
+										}}
+										initial='initial'
+										animate='animate'
+										exit='exit'
+										transition={{ duration: 0.5 }}
+										className='absolute w-full'
+									>
+										<Spin spinContent={spinContent} />
+									</motion.div>
+								) : (
+									<motion.div
+										key='wheel'
+										variants={{
+											initial: {
+												opacity: 0,
+												scale: 0.99,
+											},
+											animate: { opacity: 1, scale: 1 },
+											exit: { opacity: 0, scale: 0.95 },
+										}}
+										initial='initial'
+										animate='animate'
+										exit='exit'
+										transition={{ duration: 0.5 }}
+										className='absolute'
+									>
+										<Wheel
+											totalBet={fromNano(round.totalBet)}
+											totalTickets={round.totalTickets}
+											players={round.players}
+										/>
+									</motion.div>
+								)}
+							</AnimatePresence>
+						</div>
+
+						{!!round.totalTickets && (
+							<Players
+								totalTickets={round.totalTickets}
+								players={round.players}
+							/>
+						)}
+					</div>
+
+					{modalOpen && winner?.userId == userId && (
+						<WinnerModal
+							totalBet={1000}
+							modalOpen={modalOpen}
+							closeModal={() => setModalOpen(false)}
+						/>
+					)}
+				</>
+			) : (
+				<></>
 			)}
-		</>
-	) : (
-		<></>
+		</Page>
 	)
 }
