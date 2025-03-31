@@ -10,7 +10,7 @@ export function WalletLottie() {
 				container: containerRef.current,
 				renderer: 'svg',
 				loop: true,
-				path: '/sticker/wallet.json',
+				path: `${import.meta.env.VITE_STATIC_URL}/sticker/wallet.json`,
 			})
 
 			return () => animation.destroy()

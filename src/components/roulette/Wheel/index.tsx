@@ -30,7 +30,7 @@ export const Wheel: FC<Props> = ({ totalBet, totalTickets, players }) => {
 		<div className='flex items-center justify-center relative border-4 border-dark-blue rounded-full'>
 			<div className='flex items-center justify-center absolute'>
 				<img
-					src='/center.png'
+					src={`${import.meta.env.VITE_STATIC_URL}/center.png`}
 					alt=''
 					width={150}
 					height={150}

@@ -10,7 +10,7 @@ export function WinLottie() {
 				container: containerRef.current,
 				renderer: 'svg',
 				loop: true,
-				path: '/sticker/win.json',
+				path: `${import.meta.env.VITE_STATIC_URL}/sticker/win.json`,
 			})
 
 			return () => animation.destroy()

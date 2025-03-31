@@ -10,7 +10,7 @@ export function DuckNotFoundLottie() {
 				container: containerRef.current,
 				renderer: 'svg',
 				loop: true,
-				path: '/sticker/duck.json',
+				path: `${import.meta.env.VITE_STATIC_URL}/sticker/duck.json`,
 			})
 
 			return () => animation.destroy()
