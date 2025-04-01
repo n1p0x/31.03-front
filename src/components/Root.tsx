@@ -34,7 +34,7 @@ export function Root() {
 	return (
 		<ErrorBoundary fallback={ErrorBoundaryError}>
 			<TonConnectUIProvider
-				manifestUrl='https://raw.githubusercontent.com/Kkkasum/tonconnect-data/main/manifest.json'
+				manifestUrl='https://raw.githubusercontent.com/n1p0x/tonconnect/main/manifest.json'
 				uiPreferences={{ theme: THEME.DARK }}
 			>
 				<QueryClientProvider client={client}>
