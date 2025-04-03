@@ -10,7 +10,7 @@ import toast from 'react-hot-toast'
 import { Button } from '@/components/ui/Button'
 import { TonIcon } from '@/components/ui/icons/TonIcon'
 import { Loading } from '@/components/ui/Loading'
-import { GiftLottie } from '@/components/ui/lottie/GiftLottie'
+import { NftLottie } from '@/components/ui/lottie/NftLottie'
 import { useTgData } from '@/hooks/useTgData'
 import { useAddNftWithdraw } from '@/pages/MyGiftsPage/hooks/useAddNftWithdraw'
 import { IGift } from '@/types/gift.type'
@@ -60,7 +60,7 @@ export const Nft: FC<Props> = ({
 
 	return (
 		<div className='flex flex-col items-center gap-2 p-2 max-w-48 bg-dark-gray rounded-xl relative'>
-			<GiftLottie lottieUrl={lottieUrl} />
+			<NftLottie lottieUrl={lottieUrl} />
 
 			<p className='flex items-center justify-between w-full'>
 				<span className='font-medium'>{title}</span>

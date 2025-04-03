@@ -4,7 +4,7 @@ interface Props {
 	lottieUrl: string
 }
 
-export const GiftLottie: FC<Props> = ({ lottieUrl }) => {
+export const NftLottie: FC<Props> = ({ lottieUrl }) => {
 	return (
 		<div className='rounded-xl overflow-hidden'>
 			{

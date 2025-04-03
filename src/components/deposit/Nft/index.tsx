@@ -2,24 +2,24 @@ import { FC } from 'react'
 
 import { Button } from '@/components/ui/Button'
 import { Loading } from '@/components/ui/Loading'
-import { GiftLottie } from '@/components/ui/lottie/GiftLottie'
+import { NftLottie } from '@/components/ui/lottie/NftLottie'
 import { INft } from '@/types/gift.type'
 
 interface Props extends INft {
-    isPending: boolean
-    onClick: () => void
+	isPending: boolean
+	onClick: () => void
 }
 
 export const Nft: FC<Props> = ({
 	title,
 	collectibleId,
 	lottieUrl,
-    isPending,
-    onClick
+	isPending,
+	onClick,
 }) => {
 	return (
 		<div className='flex flex-col items-center gap-2 p-2 max-w-48 bg-dark-gray rounded-xl'>
-			<GiftLottie lottieUrl={lottieUrl} />
+			<NftLottie lottieUrl={lottieUrl} />
 
 			<p className='flex items-center justify-between w-full'>
 				<span className='font-medium'>{title}</span>

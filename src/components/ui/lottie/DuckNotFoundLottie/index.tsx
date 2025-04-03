@@ -1,26 +1,12 @@
-import lottie from 'lottie-web/build/player/lottie_light'
-import { useEffect, useRef } from 'react'
-
 export function DuckNotFoundLottie() {
-	const containerRef = useRef<HTMLDivElement>(null)
-
-	useEffect(() => {
-		if (containerRef.current) {
-			const animation = lottie.loadAnimation({
-				container: containerRef.current,
-				renderer: 'svg',
-				loop: true,
-				path: `${import.meta.env.VITE_STATIC_URL}/sticker/duck.json`,
-			})
-
-			return () => animation.destroy()
-		}
-	}, [])
-
 	return (
-		<div
-			ref={containerRef}
+		// @ts-ignore
+		<tgs-player
+			src={`${import.meta.env.VITE_STATIC_URL}/sticker/duck.json`}
 			className='flex items-center justify-center w-[156px] h-[156px]'
+			mode='normal'
+			loop
+			autoplay
 		/>
 	)
 }
