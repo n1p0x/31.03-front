@@ -8,4 +8,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default defineConfig({
 	base: '/',
 	plugins: [tailwindcss(), react(), tsconfigPaths(), nodePolyfills()],
+	server: {
+		allowedHosts: ['rouletton.ru'],
+	},
 })
