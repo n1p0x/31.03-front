@@ -33,22 +33,17 @@ export const Header: FC = () => {
 		<>
 			<header className='flex items-center justify-between w-full h-14 px-2 sticky top-0 bg-dark-blue font-bold z-50'>
 				<div className='flex items-center gap-2'>
-					<Link
-						to={ROUTE_PROFILE}
-						className='flex items-center justify-center shrink-0 overflow-hidden rounded-full w-8 h-8'
-					>
+					<Link to={ROUTE_PROFILE}>
 						{photoUrl ? (
-							<div className='border-2 border-gray'>
-								<img
-									src={photoUrl}
-									alt='user-photo'
-									width={100}
-									height={100}
-									className='h-full w-full'
-								/>
-							</div>
+							<img
+								src={photoUrl}
+								alt='user-photo'
+								width={100}
+								height={100}
+								className='border-2 border-gray rounded-full w-8 h-8'
+							/>
 						) : (
-							<ProfileIcon className='w-full h-full' />
+							<ProfileIcon className='rounded-full w-8 h-8' />
 						)}
 					</Link>
 

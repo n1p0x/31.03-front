@@ -5,12 +5,10 @@ import { twMerge } from 'tailwind-merge'
 
 import { WinnerModal } from '@/components/modals/WinnerModal'
 import { Page } from '@/components/Page'
+import { Header } from '@/components/roulette/Header'
 import { Players } from '@/components/roulette/Players'
 import { Spin } from '@/components/roulette/Spin'
 import { Wheel } from '@/components/roulette/Wheel'
-import { GiftIcon } from '@/components/ui/icons/GiftIcon'
-import { TimerIcon } from '@/components/ui/icons/TimerIcon'
-import { TonIcon } from '@/components/ui/icons/TonIcon'
 import { Loading } from '@/components/ui/Loading'
 import { useTgData } from '@/hooks/useTgData'
 import { ISpinPlayer } from '@/types/game.type'
@@ -97,33 +95,11 @@ export const RoulettePage: FC = () => {
 							modalOpen && 'blurred'
 						)}
 					>
-						<div className='grid grid-cols-3 justify-center gap-3 font-semibold px-5'>
-							<p className='flex items-center justify-center gap-1 p-2 bg-dark-gray rounded-3xl'>
-								<span>
-									{leftTime !== -1
-										? `${Math.floor(leftTime / 60)
-												.toString()
-												.padStart(2, '0')}:${Math.floor(
-												leftTime % 60
-										  )
-												.toString()
-												.padStart(2, '0')}`
-										: '-'}
-								</span>
-
-								<TimerIcon />
-							</p>
-
-							<p className='flex items-center justify-center gap-1 p-2 bg-dark-gray rounded-3xl'>
-								<span>{round.totalGifts} / 100</span>
-								<GiftIcon color='#fff' />
-							</p>
-
-							<p className='flex items-center justify-center gap-1 p-2 bg-dark-gray rounded-3xl'>
-								<span>{fromNano(round.totalBet)}</span>
-								<TonIcon width={16} height={16} />
-							</p>
-						</div>
+						<Header
+							leftTime={leftTime}
+							totalGifts={round.totalGifts}
+							totalBet={round.totalBet}
+						/>
 
 						<div className='flex justify-center items-center h-[300px] max-h-[300px] mb-2 w-full'>
 							<AnimatePresence mode='wait'>
@@ -183,7 +159,7 @@ export const RoulettePage: FC = () => {
 
 					{modalOpen && winner?.userId == userId && (
 						<WinnerModal
-							totalBet={1000}
+							totalBet={round.totalBet}
 							modalOpen={modalOpen}
 							closeModal={() => setModalOpen(false)}
 						/>
